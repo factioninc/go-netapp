@@ -48,3 +48,37 @@ func TestAggregate_ListSuccess(t *testing.T) {
 		})
 	}
 }
+
+func TestAggregate_CreateSuccess(t *testing.T) {
+
+	c, teardown := createTestClientWithFixtures(t)
+	defer teardown()
+
+	createOpts := &netapp.AggrCreateInfo{
+		Aggreagate:     "test_2",
+		ActualDiskType: "VMDISK",
+		Nodes:          []string{"test-node-2"},
+		DiskCount:      1,
+	}
+	call, _, err := c.Aggregate.Create(createOpts)
+
+	checkResponseSuccess(&call.Results.SingleResultBase, err, t)
+}
+
+func TestAggregate_CreateFailure(t *testing.T) {
+
+	c, teardown := createTestClientWithFixtures(t)
+	defer teardown()
+
+	createOpts := &netapp.AggrCreateInfo{
+		Aggreagate:     "test_2",
+		ActualDiskType: "VMDISK",
+		Nodes:          []string{"test-node-2"},
+		DiskCount:      1,
+	}
+	call, _, err := c.Aggregate.Create(createOpts)
+
+	checkResponseFailure(&call.Results.SingleResultBase, err, t)
+
+	testFailureResult(17, "An aggregate already uses test_2 as name", &call.Results, t)
+}

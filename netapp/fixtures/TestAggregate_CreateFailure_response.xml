@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<netapp version='1.130'
+  xmlns='http://www.netapp.com/filer/admin'>
+
+  <!-- Output of aggr-create [Execution Time: 169 ms] -->
+  <results reason='An aggregate already uses test_2 as name' errno='17' status='failed'/>
+</netapp>

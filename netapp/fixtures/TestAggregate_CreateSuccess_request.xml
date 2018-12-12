@@ -1,0 +1,10 @@
+<netapp version="1.10" xmlsns="http://www.netapp.com/filer/admin">
+  <aggr-create>
+    <actual-disk-type>VMDISK</actual-disk-type>
+    <aggregate>test_2</aggregate>
+    <disk-count>1</disk-count>
+    <nodes>
+      <node-name>test-node-2</node-name>
+    </nodes>
+  </aggr-create>
+</netapp>

@@ -45,6 +45,33 @@ type AggrListPagesResponse struct {
 
 type AggregatePageHandler func(AggrListPagesResponse) (shouldContinue bool)
 
+type AggrCreateInfo struct {
+	ActualDiskType string   `xml:"actual-disk-type"`
+	Aggreagate     string   `xml:"aggregate"`
+	DiskCount      int      `xml:"disk-count"`
+	Nodes          []string `xml:"nodes>node-name"`
+}
+
+type aggregateCreateRequest struct {
+	Base
+	Params struct {
+		XMLName        xml.Name
+		AggrCreateInfo `xml:",innerxml"`
+	}
+}
+
+func (a *Aggregate) Create(info *AggrCreateInfo) (*SingleResultResponse, *http.Response, error) {
+	req := aggregateCreateRequest{
+		Base: a.Base,
+	}
+	req.Params.XMLName = xml.Name{Local: "aggr-create"}
+	req.Params.AggrCreateInfo = *info
+
+	r := SingleResultResponse{}
+	res, err := a.get(req, &r)
+	return &r, res, err
+}
+
 func (a *Aggregate) ListPages(options *AggrOptions, fn AggregatePageHandler) {
 
 	requestOptions := options
